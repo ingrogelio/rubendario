@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>El Libro de Rubén Darío - Príncipe de las Letras</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #f5f5dc url('https://www.transparenttextures.com/patterns/old-paper.png');
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .book {
+      width: 90%;
+      max-width: 900px;
+      background: #fff;
+      border: 10px solid #8b4513;
+      border-radius: 10px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .page {
+      padding: 40px;
+      min-height: 500px;
+      display: none;
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 0.8s ease;
+      background: #fdfdf0;
+      position: relative;
+    }
+    .page.active {
+      display: block;
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .page.left {
+      background: linear-gradient(to right, #f0e68c, #fdfdf0);
+      border-right: 2px solid #d2b48c;
+    }
+    .page.right {
+      background: linear-gradient(to left, #f0e68c, #fdfdf0);
+      border-left: 2px solid #d2b48c;
+    }
+    h1, h2 {
+      color: #8b0000;
+      text-align: center;
+      margin-bottom: 20px;
+      font-variant: small-caps;
+    }
+    .content {
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+    .img-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 5px solid #8b4513;
+      border-radius: 8px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .nav-buttons {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 40px;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      background: #8b4513;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #a0522d;
+    }
+    .cover {
+      background: linear-gradient(to bottom, #8b4513, #a0522d);
+      color: white;
+      text-align: center;
+      padding: 100px 40px;
+      font-size: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 500px;
+    }
+    .cover h1 {
+      font-size: 3.5rem;
+      margin: 0;
+      color: #ffd700;
+    }
+    .cover p {
+      font-size: 1.5rem;
+    }
+    .cover img {
+      max-width: 320px;
+      width: 60%;
+      height: auto;
+      margin: 20px auto 0;
+      display: block;
+      border: 6px solid rgba(255,215,0,0.15);
+      border-radius: 8px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+      background: #fff8e1;
+    }
+    @media (max-width: 768px) {
+      .book { width: 95%; }
+      .page { padding: 20px; min-height: auto; }
+      .nav-buttons { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="book">
+  <!-- Página de portada -->
+  <div id="page-0" class="page cover active">
+    <h1>Rubén Darío</h1>
+    <div class="img-container">
+      <img src="rubendario.jpeg" alt="Rubén Darío" />
+    </div>
+    <p>Príncipe de las Letras Castellanas<br>Padre del Modernismo Hispanoamericano</p>
+    <p>1867 – 1916</p>
+    <p style="margin-top: 40px; font-size: 1.2rem;">Pasa las páginas para recorrer su vida y legado</p>
+  </div>
+
+  <!-- Página 1: Infancia y Nacimiento -->
+  <div id="page-1" class="page left">
+    <h2>1867 – 1879: Infancia y precocidad</h2>
+    <div class="img-container">
+      <img src="https://www.thefamouspeople.com/profiles/images/rubn-daro-1.png" alt="Rubén Darío joven">
+    </div>
+    <div class="content">
+      <p>Nace Félix Rubén García Sarmiento el 18 de enero de 1867 en Metapa (hoy Ciudad Darío), Nicaragua. Hijo de Manuel García y Rosa Sarmiento. Crece en León con abuelos y tías tras la separación de sus padres.</p>
+      <p>Aprende a leer a los 3 años. Escribe sus primeros poemas y artículos siendo niño. En 1879 publica poemas en periódicos locales. Lee vorazmente clásicos y románticos franceses.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">Portada</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 2: Juventud y Primeras obras -->
+  <div id="page-2" class="page right">
+    <h2>1881 – 1888: Juventud y Azul...</h2>
+    <div class="img-container">
+      <img src="https://i.ebayimg.com/images/g/X3cAAOSw7SNicItE/s-l1200.jpg" alt="Portada de Azul...">
+    </div>
+    <div class="content">
+      <p>Publica poesías y artículos. Viaja a El Salvador, conoce a Francisco Gavidia (influyente en su métrica). Lee poemas ante presidentes y gana fama como "poeta niño".</p>
+      <p>En Chile publica *Abrojos* y *Rimas* (1887). En 1888 publica *Azul...* en Valparaíso: obra fundacional del Modernismo, con influencias francesas, exotismo y renovación lingüística.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 3: Madurez y Prosas Profanas -->
+  <div id="page-3" class="page left">
+    <h2>1890 – 1898: Matrimonios y Buenos Aires</h2>
+    <div class="img-container">
+      <img src="https://m.media-amazon.com/images/I/61cEdUk3OYL.jpg" alt="Portada Prosas Profanas">
+    </div>
+    <div class="content">
+      <p>Se casa con Rafaela Contreras (1890), nace Rubén Darío Contreras (1891). Muere Rafaela (1893). Se casa con Rosario Murillo.</p>
+      <p>En Buenos Aires publica *Los raros* y *Prosas profanas*

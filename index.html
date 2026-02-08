@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Línea de tiempo interactiva de Rubén Darío - Príncipe de las Letras Castellanas"/>
+  <meta name="theme-color" content="#1a1a2e"/>
+  <title>Rubén Darío - Línea de Tiempo Interactiva</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CSS CUSTOM PROPERTIES (THEMING) ===== */
+    :root {
+      /* Light Theme (Default) */
+      --primary: #1a1a2e;
+      --primary-light: #2d2d4a;
+      --secondary: #e94560;
+      --gold: #d4af37;
+      --gold-light: #f0e68c;
+      --bg-light: #f8f9fa;
+      --bg-white: #ffffff;
+      --text-dark: #2d3436;
+      --text-light: #636e72;
+      --text-muted: #b2bec3;
+      --border-light: #e0e0e0;
+      --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
+      --shadow-md: 0 5px 20px rgba(0,0,0,0.12);
+      --shadow-lg: 0 15px 50px rgba(0,0,0,0.15);
+      --shadow-glow: 0 0 30px rgba(212,175,55,0.3);
+      --base-font-size: 16px;
+      --transition-fast: 0.2s ease;
+      --transition-normal: 0.3s ease;
+      --transition-slow: 0.5s ease;
+    }
+
+    /* Dark Theme */
+    [data-theme="dark"] {
+      --primary: #e94560;
+      --primary-light: #ff6b85;
+      --secondary: #bb86fc;
+      --gold: #ffd700;
+      --gold-light: #ffec8b;
+      --bg-light: #121212;
+      --bg-white: #1e1e1e;
+      --text-dark: #e0e0e0;
+      --text-light: #b0b0b0;
+      --text-muted: #808080;
+      --border-light: #333333;
+      --shadow-sm: 0 2px 10px rgba(0,0,0,0.3);
+      --shadow-md: 0 5px 20px rgba(0,0,0,0.4);
+      --shadow-lg: 0 15px 50px rgba(0,0,0,0.5);
+      --shadow-glow: 0 0 30px rgba(233,69,96,0.4);
+    }
+
+    /* Prefers Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ===== BASE STYLES ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: var(--base-font-size);
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      padding-top: 60px;
+      line-height: 1.6;
+      transition: background-color var(--transition-normal), color var(--transition-normal);
+    }
+
+    /* Skip Link for Accessibility */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      background: var(--secondary);
+      color: white;
+      padding: 12px 24px;
+      z-index: 10000;
+      transition: top var(--transition-fast);
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* Focus Visible Styles */
+    *:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--secondary));
+      z-index: 1001;
+      transition: width var(--transition-normal);
+    }
+
+    /* ===== NAVIGATION ===== */
+    .nav {
+      position: fixed;
+      top: 4px;
+      left: 0;
+      right: 0;
+      background: rgba(26,26,46,0.95);
+      backdrop-filter: blur(10px);
+      padding: 12px 30px;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--gold);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition-fast);
+    }
+
+    .nav-logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      padding: 5px 0;
+      position: relative;
+      transition: color var(--transition-fast);
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--gold);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      transition: width var(--transition-normal);
+    }
+
+    .nav-links a:hover::after, .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-toggle, .font-toggle {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all var(--transition-fast);
+    }
+
+    .theme-toggle:hover, .font-toggle:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.1);
+    }
+
+    .theme-toggle[data-theme="dark"] {
+      background: var(--secondary);
+    }
+
+    .menu-toggle {
+      display: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 5px;
+    }
+
+    /* ===== TOOLTIPS ===== */
+    .tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-5px);
+      background: var(--primary);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-fast);
+      z-index: 1002;
+    }
+
+    .tooltip:hover::after, .tooltip:focus::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(-8px);
+    }
+
+    /* ===== SIDEBAR NAVIGATION ===== */
+    .sidebar {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sidebar-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(26,26,46,0.3);
+      cursor: pointer;
+      position: relative;
+      transition: all var(--transition-normal);
+      border: 2px solid transparent;
+    }
+
+    .sidebar-dot:hover {
+      background: var(--secondary);
+      transform: scale(1.3);
+    }
+
+    .sidebar-dot.active {
+      background: var(--gold);
+      transform: scale(1.3);
+      border-color: white;
+    }
+
+    .sidebar-dot::before {
+      content: attr(data-label);
+      position: absolute;
+      right: 25px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--primary);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-fast);
+    }
+
+    .sidebar-dot:hover::before {
+      opacity: 1;
+    }
+
+    /* ===== BACK TO TOP ===== */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-normal);
+      z-index: 1000;
+      box-shadow: var(--shadow-md);
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 10px 30px rgba(233,69,96,0.4);
+    }
+
+    .back-to-top:active {
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    /* ===== BREADCRUMBS ===== */
+    .breadcrumbs {
+      position: fixed;
+      top: 60px;
+      left: 20px;
+      background: rgba(255,255,255,0.95);
+      padding: 10px 20px;
+      border-radius: 25px;
+      box-shadow: var(--shadow-sm);
+      z-index: 998;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color var(--transition-normal);
+    }
+
+    [data-theme="dark"] .breadcrumbs {
+      background: var(--bg-white);
+    }
+
+    .breadcrumbs a {
+      color: var(--secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .breadcrumbs span {
+      color: var(--text-light);
+    }
+
+    .breadcrumbs .current {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* ===== panel del tamaño de la fuente ===== */
+    .font-size-panel {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      background: var(--bg-white);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      z-index: 997;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-normal);
+      display: flex;
+      gap: 10px;
+    }
+
+    .font-size-panel.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .font-size-btn {
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--border-light);
+      border-radius: 8px;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all var(--transition-fast);
+    }
+
+    .font-size-btn:hover, .font-size-btn.active {
+      border-color: var(--secondary);
+      background: var(--secondary);
+      color: white;
+    }
+
+    /* ===== SECTIONS ===== */
+    section {
+      min-height: 100vh;
+      padding: 80px 5%;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #16213e 50%, #0f3460 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(212,175,55,0.15) 0%, transparent 60%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-portrait {
+      width: 200px;
+      height: 250px;
+      object-fit: cover;
+      border: 4px solid var(--gold);
+      border-radius: 10px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 30px;
+      transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    }
+
+    .hero-portrait:hover {
+      transform: scale(1.08) rotate(2deg);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      color: var(--gold);
+      text-shadow: 0 0 30px rgba(212,175,55,0.5);
+      margin-bottom: 15px;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero .subtitle {
+      font-size: 1.5rem;
+      opacity: 0.9;
+      margin-bottom: 10px;
+      animation: fadeInUp 1s ease 0.2s backwards;
+    }
+
+    .hero .dates {
+      font-size: 1.2rem;
+      color: var(--gold-light);
+      margin-bottom: 40px;
+      animation: fadeInUp 1s ease 0.4s backwards;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+      cursor: pointer;
+      transition: transform var(--transition-fast);
+    }
+
+    .scroll-indicator:hover {
+      transform: translateX(-50%) scale(1.2);
+    }
+
+    .scroll-indicator span {
+      display: block;
+      width: 30px;
+      height: 50px;
+      border: 2px solid var(--gold);
+      border-radius: 25px;
+      position: relative;
+    }
+
+    .scroll-indicator span::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      animation: scrollDown 2s infinite;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-15px); }
+      60% { transform: translateX(-50%) translateY(-7px); }
+    }
+
+    @keyframes scrollDown {
+      0% { opacity: 1; top: 8px; }
+      100% { opacity: 0; top: 30px; }
+    }
+
+    /* ===== TIMELINE SECTION ===== */
+    .timeline-section {
+      background: var(--bg-white);
+      padding: 80px 5%;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      margin: 15px auto 0;
+      border-radius: 2px;
+    }
+
+    .section-subtitle {
+      color: var(--text-light);
+      font-size: 1rem;
+    }
+
+    .timeline {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      width: 4px;
+      background: linear-gradient(180deg, var(--secondary), var(--primary));
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 50px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all var(--transition-slow);
+    }
+
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--secondary);
+      border: 4px solid white;
+      border-radius: 50%;
+      left: 50%;
+      top: 20px;
+      transform: translateX(-50%);
+      box-shadow: 0 0 15px rgba(233,69,96,0.5);
+      z-index: 2;
+      cursor: pointer;
+      transition: all var(--transition-normal);
+    }
+
+    [data-theme="dark"] .timeline-item::before {
+      border-color: var(--bg-white);
+    }
+
+    .timeline-item:hover::before {
+      transform: translateX(-50%) scale(1.5);
+      box-shadow: 0 0 25px rgba(233,69,96,0.7);
+      background: var(--gold);
+    }
+
+    .timeline-content {
+      width: 45%;
+      background: var(--bg-light);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+      transition: all var(--transition-normal);
+      border-left: 4px solid var(--secondary);
+      position: relative;
+    }
+
+    [data-theme="dark"] .timeline-content {
+      background: var(--bg-white);
+    }
+
+    .timeline-item:hover .timeline-content {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    /* Timeline item as link */
+    .timeline-item-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .timeline-item-link:hover .timeline-content {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .timeline-item-link:hover .timeline-cta {
+      transform: scale(1.08);
+      box-shadow: 0 5px 20px rgba(233,69,96,0.4);
+    }
+
+    .timeline-content.left {
+      margin-left: auto;
+      text-align: right;
+      border-left: none;
+      border-right: 4px solid var(--secondary);
+    }
+
+    .timeline-content.right {
+      margin-right: auto;
+    }
+
+    /* Destacar el item del Quiz */
+    .timeline-item[data-page="16"] .timeline-content {
+      border-left-color: #ffd700;
+      background: linear-gradient(180deg,#fffaf0,#fffdf7);
+      box-shadow: 0 18px 40px rgba(212,175,55,0.12);
+      transform: translateY(-4px);
+    }
+
+    .timeline-item[data-page="16"] .timeline-cta {
+      background: linear-gradient(135deg,#ffd700,#e94560);
+      color: #1a1a2e;
+      font-weight: 700;
+    }
+
+    .timeline-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--secondary);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .timeline-title {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .timeline-desc {
+      color: var(--text-light);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .timeline-cta {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 8px 20px;
+      background: linear-gradient(135deg, var(--secondary), #c23a51);
+      color: white;
+      border-radius: 25px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all var(--transition-normal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timeline-content:hover .timeline-cta {
+      transform: scale(1.08);
+      box-shadow: 0 5px 20px rgba(233,69,96,0.4);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    footer p {
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+
+    footer .credits {
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+
+    /* ===== KEYBOARD SHORTCUTS HELP ===== */
+    .shortcuts-help {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      background: var(--bg-white);
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-normal);
+      z-index: 1000;
+      box-shadow: var(--shadow-lg);
+      max-width: 280px;
+    }
+
+    .shortcuts-help.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-10px);
+    }
+
+    .shortcuts-help h4 {
+      color: var(--primary);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .shortcuts-help div {
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .shortcuts-help kbd {
+      background: var(--bg-light);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      border: 1px solid var(--border-light);
+    }
+
+    .shortcuts-help .action {
+      color: var(--text-light);
+      font-size: 0.8rem;
+    }
+
+    /* ===== RIPPLE EFFECT ===== */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      transform: scale(0);
+      animation: ripple-animation 0.6s linear;
+      pointer-events: none;
+    }
+
+    @keyframes ripple-animation {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* ===== PAGE TRANSITION ===== */
+    .page-transition {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-transition.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .page-transition::after {
+      content: '🦢';
+      font-size: 4rem;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--primary);
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .breadcrumbs {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-portrait {
+        width: 150px;
+        height: 180px;
+      }
+
+      .timeline::before {
+        left: 20px;
+      }
+
+      .timeline-item::before {
+        left: 20px;
+      }
+
+      .timeline-content {
+        width: calc(100% - 50px);
+        margin-left: 50px !important;
+        text-align: left !important;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+      }
+
+      .shortcuts-help {
+        bottom: 80px;
+        right: 20px;
+        left: 20px;
+        max-width: none;
+      }
+
+      .nav-controls {
+        gap: 8px;
+      }
+
+      .theme-toggle, .font-toggle {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" role="navigation" aria-label="Navegación principal">
+    <div class="nav-logo tooltip" data-tooltip="Ir al inicio" onclick="scrollToTop()">Rubén Darío</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero" class="active">Inicio</a></li>
+      <li><a href="#timeline">Línea de Tiempo</a></li>
+    </ul>
+    <div class="nav-controls">
+      <button class="font-toggle tooltip" data-tooltip="Tamaño de fuente" aria-label="Cambiar tamaño de fuente" onclick="toggleFontPanel()">A</button>
+      <button class="theme-toggle tooltip" data-tooltip="Modo oscuro" aria-label="Cambiar tema" onclick="toggleTheme()" data-theme="light">🌙</button>
+      <button class="menu-toggle" aria-label="Menú" onclick="toggleMenu()">☰</button>
+    </div>
+  </nav>
+
+  <!-- Font Size Panel -->
+  <div class="font-size-panel" id="fontSizePanel" role="group" aria-label="Tamaño de fuente">
+    <button class="font-size-btn" onclick="setFontSize('small')" aria-label="Fuente pequeña">A-</button>
+    <button class="font-size-btn active" onclick="setFontSize('medium')" aria-label="Fuente media">A</button>
+    <button class="font-size-btn" onclick="setFontSize('large')" aria-label="Fuente grande">A+</button>
+  </div>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs">
+    <a href="#hero">Inicio</a>
+    <span>›</span>
+    <span class="current" id="breadCrumb">Portada</span>
+  </div>
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar" role="navigation" aria-label="Navegación rápida">
+    <div class="sidebar-dot active tooltip" data-section="hero" data-label="Inicio" aria-label="Ir a inicio"></div>
+    <div class="sidebar-dot tooltip" data-section="timeline" data-label="Línea de Tiempo" aria-label="Ir a línea de tiempo"></div>
+  </nav>
+
+  <!-- Back to Top -->
+  <button class="back-to-top tooltip" data-tooltip="Volver arriba" aria-label="Volver al inicio" onclick="scrollToTop()">↑</button>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="pageTransition" role="alert" aria-label="Cargando siguiente página"></div>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <div class="hero-content">
+        <img src="rubendario.jpeg" alt="Retrato de Rubén Darío" class="hero-portrait" loading="lazy">
+        <h1>Rubén Darío</h1>
+        <p class="subtitle">Príncipe de las Letras Castellanas</p>
+        <p class="subtitle">Padre del Modernismo Hispanoamericano</p>
+        <p class="dates">1867 — 1916</p>
+      </div>
+      <div class="scroll-indicator" onclick="scrollToTimeline()" aria-label="Ir a línea de tiempo">
+        <span></span>
+      </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="timeline-section">
+      <div class="section-header">
+        <h2 class="section-title">Línea de Tiempo</h2>
+        <p class="section-subtitle">Click en cada evento para leer más</p>
+      </div>
+      
+      <div class="timeline" role="list" aria-label="Cronología de Rubén Darío">
+        <a href="pages/1867-nacimiento.html#timeline" class="timeline-item-link" id="timeline-1867">
+          <div class="timeline-item" data-page="1" role="listitem" tabindex="0">
+            <div class="timeline-content left">
+              <div class="timeline-year">1867</div>
+              <div class="timeline-title">Nacimiento</div>
+              <div class="timeline-desc">Félix Rubén García Sarmiento nace el 18 de enero en Metapa, Nicaragua</div>
+              <span class="timeline-cta">Leer más →</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="pages/1879-primeros-poemas.html#timeline" class="timeline-item-link" id="timeline-1879">
+          <div class="timeline-item" data-page="2" role="listitem" tabindex="0">
+            <div class="timeline-content right">
+              <div class="timeline-year">1879</div>
+              <div class="timeline-title">Primeros Poemas</div>
+              <div class="timeline-desc">A los 12 años publica sus primeros poemas en periódicos locales</div>
+              <span class="timeline-cta">Leer más →</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="pages/1888-azul.html#timeline" class="timeline-item-link" id="timeline-1888">
+          <div class="timeline-item" data-page="4" role="listitem" tabindex="0">
+            <div class="timeline-content left">
+              <div class="timeline-year">1888</div>
+              <div class="timeline-title">Azul... — El Inicio</div>
+              <div class="timeline-desc">Publica "Azul..." en Valparaíso, nace el Modernismo Hispanoamericano</div>
+              <span class="timeline-cta">Leer más →</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="pages/1896-prosas-profanas.html#timeline" class="timeline-item-link" id="timeline-1896">
+          <div class="timeline-item" data-page="6" role="listitem" tabindex="0">
+            <div class="timeline-content right">
+              <div class="timeline-year">1896</div>
+              <div class="timeline-title">Prosas Profanas</div>
+              <div class="timeline-desc">Consagra el movimiento modernista con cisnes, princesas y musicalidad</div>
+              <span class="timeline-cta">Leer más →</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="pages/1905-cantos.html#timeline" class="timeline-item-link" id="timeline-1905">
+          <div class="timeline-item" data-page="8" role="listitem" tabindex="0">
+            <div class="timeline-content left">
+              <div class="timeline-year">1905</div>
+              <div class="timeline-title">Cantos de Vida y Esperanza</div>
+              <div class="timeline-desc">Obra maestra de madurez poética con temas existenciales</div>
+              <span class="timeline-cta">Leer más →</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="pages/1916-muerte.html#timeline" class="timeline-item-link" id="timeline-1916">
+          <div class="timeline-item" data-page="12" role="listitem" tabindex="0">
+            <div class="timeline-content right">
+              <div class="timeline-year">1916</div>
+              <div class="timeline-title">Fallecimiento</div>
+              <div class="timeline-desc">Muere el 6 de febrero en León, Nicaragua, a los 49 años</div>
+              <span class="timeline-cta">Leer más →</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="pages/legado.html#timeline" class="timeline-item-link" id="timeline-legado">
+          <div class="timeline-item" data-page="13" role="listitem" tabindex="0">
+            <div class="timeline-content left">
+              <div class="timeline-year">Legado</div>
+              <div class="timeline-title">Padre del Modernismo</div>
+              <div class="timeline-desc">Influye en García Lorca, Neruda y toda la literatura del siglo XX</div>
+              <span class="timeline-cta">Leer más →</span>
+            </div>
+          </div>
+        </a>
+        
+        <a href="libro_ruber_dario.html#page-16" class="timeline-item-link" id="timeline-pregunta" aria-label="Ir al quiz de preguntas">
+          <div class="timeline-item" data-page="16" role="listitem" tabindex="0">
+            <div class="timeline-content right">
+              <div class="timeline-year">Quiz</div>
+              <div class="timeline-title">Preguntas (8)</div>
+              <div class="timeline-desc">Prueba tus conocimientos con 8 preguntas</div>
+              <span class="timeline-cta">Ir al Quiz →</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pies de pagina -->
+  <footer>
+    <p>✨ Rubén Darío - Príncipe de las Letras Castellanas ✨</p>
+    <p class="credits">Línea de tiempo interactiva - Nicaragua 🦢</p>
+  </footer>
+
+  <!-- Ayuda con el atajo de tecla -->
+  <div class="shortcuts-help" id="shortcutsHelp" role="dialog" aria-label="Atajos de teclado">
+    <h4>⌨️ Atajos de Teclado</h4>
+    <div><kbd>↑</kbd> <span class="action">Subir</span></div>
+    <div><kbd>↓</kbd> <span class="action">Bajar</span></div>
+    <div><kbd>Home</kbd> <span class="action">Ir al inicio</span></div>
+    <div><kbd>End</kbd> <span class="action">Ir al final</span></div>
+    <div><kbd>?</kbd> <span class="action">Mostrar ayuda</span></div>
+    <div><kbd>D</kbd> <span class="action">Modo oscuro</span></div>
+    <div><kbd>+</kbd> <span class="action">Fuente +</span></div>
+    <div><kbd>-</kbd> <span class="action">Fuente -</span></div>
+  </div>
+
+  <script>
+    // ===== Gestion de tema =====
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      document.querySelector('.theme-toggle').setAttribute('data-theme', savedTheme);
+      document.querySelector('.theme-toggle').innerHTML = savedTheme === 'dark' ? '☀️' : '🌙';
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      
+      const toggleBtn = document.querySelector('.theme-toggle');
+      toggleBtn.setAttribute('data-theme', newTheme);
+      toggleBtn.innerHTML = newTheme === 'dark' ? '☀️' : '🌙';
+      toggleBtn.setAttribute('aria-label', newTheme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
+    }
+
+    // ===== Gestion del tamaño de la fuente =====
+    function initFontSize() {
+      const savedSize = localStorage.getItem('fontSize') || 'medium';
+      setFontSize(savedSize);
+    }
+
+    function setFontSize(size) {
+      const sizes = { small: '14px', medium: '16px', large: '18px' };
+      document.documentElement.style.setProperty('--base-font-size', sizes[size]);
+      localStorage.setItem('fontSize', size);
+      
+      document.querySelectorAll('.font-size-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('onclick').includes(size)) {
+          btn.classList.add('active');
+        }
+      });
+    }
+
+    function toggleFontPanel() {
+      document.getElementById('fontSizePanel').classList.toggle('active');
+    }
+
+    // ===== menu alternal =====
+    function toggleMenu() {
+      document.querySelector('.nav-links').classList.toggle('active');
+    }
+
+    // ===== barra de progreso =====
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / scrollHeight) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+      document.getElementById('progressBar').setAttribute('aria-valuenow', Math.round(progress));
+      
+      // Volver a la visibilidad superior
+      const backToTop = document.querySelector('.back-to-top');
+      if (scrollTop > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    // ===== FUNCIONES DE DESPLAZAMIENTO =====
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function scrollToEnd() {
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+    }
+
+    function scrollToTimeline() {
+      document.getElementById('timeline').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // ===== NAVEGACIÓN DE LA BARRA LATERAL =====
+    const sections = document.querySelectorAll('section');
+    const sidebarDots = document.querySelectorAll('.sidebar-dot');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    
+    const sectionNames = {
+      hero: 'Portada',
+      timeline: 'Línea de Tiempo'
+    };
+    
+    function updateActiveSection() {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= sectionTop - 200) {
+          current = section.getAttribute('id');
+        }
+      });
+      
+      sidebarDots.forEach(dot => {
+        dot.classList.remove('active');
+        if (dot.dataset.section === current) {
+          dot.classList.add('active');
+        }
+      });
+      
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Actualizar breadcrumb
+      const breadCrumb = document.getElementById('breadCrumb');
+      if (sectionNames[current]) {
+        breadCrumb.textContent = sectionNames[current];
+      }
+    }
+    
+    window.addEventListener('scroll', updateActiveSection);
+    
+    sidebarDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const section = document.getElementById(dot.dataset.section);
+        section.scrollIntoView({ behavior: 'smooth' });
+      });
+      
+      dot.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const section = document.getElementById(dot.dataset.section);
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // ===== OBSERVADOR DE LA LÍNEA DE TIEMPO (solo animaciones) =====
+    const timelineObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.2 });
+    
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      timelineObserver.observe(item);
+    });
+
+    // ===== NAVEGACIÓN POR TECLADO =====
+    document.addEventListener('keydown', (e) => {
+      const shortcutsHelp = document.getElementById('shortcutsHelp');
+      
+      switch(e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          window.scrollBy({ top: 100, behavior: 'smooth' });
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          window.scrollBy({ top: -100, behavior: 'smooth' });
+          break;
+        case 'Home':
+          scrollToTop();
+          break;
+        case 'End':
+          scrollToEnd();
+          break;
+        case '?':
+          shortcutsHelp.classList.toggle('visible');
+          break;
+        case 'd':
+        case 'D':
+          toggleTheme();
+          break;
+        case '+':
+          setFontSize('large');
+          break;
+        case '-':
+          setFontSize('small');
+          break;
+      }
+    });
+
+    // ===== DESPLAZAMIENTO SUAVE PARA ENLACES DE NAVEGACIÓN =====
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // ===== RIPPLE EFFECT (buttons only) =====
+    document.querySelectorAll('button').forEach(element => {
+      element.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = e.clientX - rect.left - size/2 + 'px';
+        ripple.style.top = e.clientY - rect.top - size/2 + 'px';
+        
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+
+    // ===== CENTER ON HASH (return from page) =====
+    function centerOnHash() {
+      const hash = window.location.hash;
+      if (hash) {
+        // Wait for DOM to be fully ready
+        setTimeout(() => {
+          const element = document.querySelector(hash);
+          if (element) {
+            const viewportHeight = window.innerHeight;
+            const elementRect = element.getBoundingClientRect();
+            const elementHeight = elementRect.height;
+            
+            // Calculate center position
+            const centerPosition = elementRect.top - (viewportHeight / 2) + (elementHeight / 2);
+            
+            // Smooth scroll to center
+            window.scrollBy({
+              top: centerPosition,
+              behavior: 'smooth'
+            });
+          }
+        }, 100);
+      }
+    }
+
+    // ===== PAGE TRANSITION =====
+    function initPageTransition() {
+      const transitionElement = document.getElementById('pageTransition');
+      const timelineLinks = document.querySelectorAll('.timeline-item-link');
+      
+      timelineLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          transitionElement.classList.add('active');
+        });
+      });
+    }
+
+    // ===== INITIALIZATION =====
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      initFontSize();
+      updateActiveSection();
+      centerOnHash();
+      initPageTransition();
+    });
+  </script>
+</body>
+</html>

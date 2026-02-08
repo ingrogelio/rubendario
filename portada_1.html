@@ -1,0 +1,73 @@
+<!-- Página de portada con imagen de Rubén Darío, azul y dorado -->
+<div id="page-0" class="page cover active">
+  <style>
+    .cover {
+      background: linear-gradient(to bottom, #001f3f, #003366, #004080); /* Azul profundo evocando cisnes y profundidad poética */
+      color: #ffd700; /* Dorado principal */
+      text-align: center;
+      padding: 60px 40px;
+      font-size: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 600px; /* Aumentado para mejor espacio con imagen */
+      position: relative;
+      overflow: hidden;
+    }
+    .cover .portrait {
+      width: 220px;
+      height: 280px;
+      object-fit: cover;
+      border: 6px solid #d4af37; /* Marco dorado */
+      border-radius: 12px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,215,0,0.15);
+      margin-bottom: 25px;
+    }
+    .cover h1 {
+      font-size: 4.2rem;
+      margin: 10px 0 0;
+      color: #ffd700;
+      text-shadow: 0 0 25px rgba(255,215,0,0.7), 2px 2px 8px rgba(0,0,0,0.6);
+      letter-spacing: 5px;
+      font-variant: small-caps;
+    }
+    .cover p {
+      font-size: 1.7rem;
+      margin: 12px 0;
+      color: #f0e68c; /* Dorado claro */
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    }
+    .cover .subtitle {
+      font-size: 1.5rem;
+      color: #d4af37; /* Oro viejo */
+      margin: 20px 0 10px;
+    }
+    .cover .prompt {
+      margin-top: 50px;
+      font-size: 1.4rem;
+      color: #e6d9a6;
+      font-style: italic;
+      opacity: 0.9;
+    }
+    /* Brillo sutil de fondo */
+    .cover::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(255,215,0,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+  </style>
+
+  <img 
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Ruben_Dario_2.jpg/800px-Ruben_Dario_2.jpg" 
+    alt="Retrato de Rubén Darío" 
+    class="portrait"
+  >
+  
+  <h1>Rubén Darío</h1>
+  <p>Príncipe de las Letras Castellanas<br>Padre del Modernismo Hispanoamericano</p>
+  <p class="subtitle">1867 – 1916</p>
+  <p class="prompt">Pasa las páginas para descubrir su vida y legado inmortal</p>
+</div>

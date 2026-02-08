@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="1905: Cantos de Vida y Esperanza de Rubén Darío - Línea de tiempo interactiva"/>
+  <meta name="theme-color" content="#e94560"/>
+  <title>1905: Cantos de Vida y Esperanza - Rubén Darío</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1.400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a1a2e;
+      --secondary: #e94560;
+      --gold: #d4af37;
+      --bg-light: #f8f9fa;
+      --bg-white: #ffffff;
+      --text-dark: #2d3436;
+      --text-light: #636e72;
+      --transition: 0.3s ease;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+    .nav {
+      background: var(--primary);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+    .nav a { color: white; text-decoration: none; font-weight: 500; }
+    .nav a:hover { color: var(--gold); }
+    .page-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 30px;
+      transition: var(--transition);
+    }
+    .back-link:hover { transform: translateX(-5px); }
+    .year-badge {
+      background: linear-gradient(135deg, var(--secondary), #c23a51);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 25px;
+    }
+    .featured-image {
+      width: 100%;
+      max-height: 500px;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 15px;
+      margin: 25px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      transition: transform var(--transition);
+    }
+    .featured-image:hover {
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+    
+    /* ===== IMAGE MODAL (LIGHTBOX) ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.95);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+    }
+    
+    .modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      box-shadow: 0 0 50px rgba(212,175,55,0.3);
+      animation: zoomIn 0.3s ease;
+    }
+    
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    
+    .modal-close:hover {
+      color: var(--gold);
+    }
+    
+    .modal-caption {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 1.1rem;
+      text-align: center;
+      max-width: 80%;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    }
+    .content-text {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      margin-bottom: 20px;
+    }
+    .timeline-nav {
+      display: flex;
+      gap: 15px;
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 2px solid var(--bg-light);
+      flex-wrap: wrap;
+    }
+    .timeline-nav a {
+      padding: 10px 20px;
+      background: var(--primary);
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    .timeline-nav a:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 30px;
+      margin-top: 50px;
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      .timeline-nav { flex-direction: column; }
+      .timeline-nav a { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-links">
+      <a href="../index.html#timeline-1905">← Volver a Línea de Tiempo</a>
+    </div>
+    <span>📖 Rubén Darío</span>
+  </nav>
+
+  <main class="page-content">
+    <a href="../index.html#timeline-1905" class="back-link">← Volver al evento</a>
+    
+    <span class="year-badge">1905</span>
+    <h1>Cantos de Vida y Esperanza</h1>
+    
+    <img src="https://is1-ssl.mzstatic.com/image/thumb/Publication/75/54/df/mzi.jmxlfift.jpg/1200x900wz.jpg" alt="Portada Cantos" class="featured-image" loading="lazy" onclick="openModal(this)" data-caption="Cantos de Vida y Esperanza (1905) - Obra maestra">
+    
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+      <span class="modal-close">&times;</span>
+      <img class="modal-content" id="modalImage">
+      <div class="modal-caption" id="modalCaption"></div>
+    </div>
+    
+    <p class="content-text">
+      En <strong>1905</strong>, Rubén Darío publica <em>Cantos de Vida y Esperanza</em>, 
+      considerada su obra maestra de madurez poética.
+    </p>
+    
+    <p class="content-text">
+      Esta colección representa la segunda y más profunda etapa del Modernismo, 
+      abordando temas existenciales, espirituales y con una profunda crítica social.
+    </p>
+    
+    <p class="content-text">
+      Editada por el reconocido poeta español <strong>Juan Ramón Jiménez</strong>, 
+      la obra consolida el prestigio internacional de Darío como el máximo poeta 
+      de habla hispana de su tiempo.
+    </p>
+    
+    <p class="content-text">
+      <em>Cantos de Vida y Esperanza</em> marca la transición hacia una poesía 
+      más reflexiva y comprometida, manteniendo siempre la musicalidad y 
+      belleza formal que caracterizaban al autor.
+    </p>
+
+    <div class="timeline-nav">
+      <a href="1896-prosas-profanas.html">← 1896: Prosas Profanas</a>
+      <a href="1916-muerte.html">1916: Muerte →</a>
+      <a href="../index.html#timeline-1905">🏠 Volver aquí</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>✨ Rubén Darío - Príncipe de las Letras Castellanas ✨</p>
+  </footer>
+
+  <script>
+    function openModal(img) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      const modalCaption = document.getElementById('modalCaption');
+      
+      modal.classList.add('active');
+      modalImg.src = img.src;
+      modalCaption.textContent = img.dataset.caption || img.alt;
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModal() {
+      const modal = document.getElementById('imageModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

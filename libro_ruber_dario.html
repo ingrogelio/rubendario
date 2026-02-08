@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>El Libro de Rubén Darío - 15 Páginas de su Vida</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #f5f5dc url('https://www.transparenttextures.com/patterns/old-paper.png');
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .book {
+      width: 90%;
+      max-width: 1000px;
+      background: #fff;
+      border: 12px solid #8b4513;
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .page {
+      padding: 50px 40px;
+      min-height: 600px;
+      display: none;
+      opacity: 0;
+      transform: translateX(60px);
+      transition: all 1s ease;
+      background: #fdfdf0;
+      position: relative;
+    }
+    .page.active {
+      display: block;
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .page.left { background: linear-gradient(to right, #f0e68c, #fdfdf0); border-right: 3px solid #d2b48c; }
+    .page.right { background: linear-gradient(to left, #f0e68c, #fdfdf0); border-left: 3px solid #d2b48c; }
+    h1, h2 {
+      color: #8b0000;
+      text-align: center;
+      margin-bottom: 25px;
+      font-variant: small-caps;
+      letter-spacing: 1px;
+    }
+    .content {
+      line-height: 1.9;
+      font-size: 1.15rem;
+      text-align: justify;
+    }
+    .img-container {
+      text-align: center;
+      margin: 25px 0;
+    }
+    img {
+      max-width: 70%;
+      height: auto;
+      border: 6px solid #8b4513;
+      border-radius: 10px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+    }
+    .nav-buttons {
+      position: absolute;
+      bottom: 30px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 50px;
+    }
+    button {
+      padding: 14px 30px;
+      font-size: 1.2rem;
+      background: #8b4513;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.4s, transform 0.2s;
+    }
+    button:hover {
+      background: #a0522d;
+      transform: scale(1.05);
+    }
+    .cover {
+      background: linear-gradient(to bottom, #8b4513, #a0522d);
+      color: white;
+      text-align: center;
+      padding: 120px 50px;
+      font-size: 2.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 600px;
+    }
+    .cover h1 { font-size: 4rem; margin: 0; color: #ffd700; text-shadow: 2px 2px 4px #000; }
+    .cover p { font-size: 1.6rem; margin: 20px 0; }
+    @media (max-width: 768px) {
+      .book { width: 95%; }
+      .page { padding: 30px 20px; min-height: auto; }
+      .nav-buttons { flex-direction: column; gap: 15px; padding: 0 20px; }
+      img { max-width: 90%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="book">
+  <!-- Página 0: Portada -->
+  <div id="page-0" class="page cover active">
+    <h1>Rubén Darío</h1>
+    <p>Príncipe de las Letras Castellanas<br>Padre del Modernismo Hispanoamericano</p>
+    <p>1867 – 1916</p>
+    <p style="margin-top: 60px; font-size: 1.4rem;">15 páginas con lo esencial de su vida y legado</p>
+  </div>
+
+  <!-- Página 1 -->
+  <div id="page-1" class="page left">
+    <h2>1867: Nacimiento</h2>
+    <div class="img-container"><img src="https://thediplomatinspain.com/wp-content/uploads/2024/05/ruben_dario.jpg" alt="Rubén Darío retrato"></div>
+    <div class="content">
+      <p>Nace Félix Rubén García Sarmiento el 18 de enero en Metapa (hoy Ciudad Darío), Nicaragua. Hijo de Manuel García y Rosa Sarmiento. Crece en León con abuelos y tías tras separación familiar.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">Portada</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 2 -->
+  <div id="page-2" class="page right">
+    <h2>1870-1879: Infancia prodigiosa</h2>
+    <div class="img-container"><img src="https://jpmas.com.ni/wp-content/uploads/2024/01/poeta-universal.jpg" alt="Rubén Darío joven"></div>
+    <div class="content">
+      <p>Aprende a leer a los 3 años. Escribe primeros poemas y artículos. Publica en periódicos locales a los 12. Lee vorazmente románticos franceses y clásicos.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 3 -->
+  <div id="page-3" class="page left">
+    <h2>1881-1882: Poeta niño</h2>
+    <div class="img-container"><img src="https://images.ctfassets.net/3s5io6mnxfqz/6yNdreFNLWG2bXuvWiuMx7/dfdc8dda9c55420c452bc5509dd5f504/ruben-dario-father-of-modernismo.jpeg" alt="Rubén Darío retrato"></div>
+    <div class="content">
+      <p>Viaja a El Salvador. Conoce a Francisco Gavidia (influye en su métrica). Lee poemas ante presidentes. Gana fama como "poeta niño" en Centroamérica.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+    </div>
+
+  <!-- Página 4 -->
+  <div id="page-4" class="page right">
+    <h2>1886-1888: Chile y Azul...</h2>
+    <div class="img-container"><img src="https://m.media-amazon.com/images/I/61NEI7mK-cL.jpg" alt="Portada Azul..."></div>
+    <div class="content">
+      <p>Publica *Abrojos* y *Rimas* (1887). En 1888 lanza *Azul...* en Valparaíso: obra fundacional del Modernismo, con exotismo, influencias francesas y renovación poética.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 5 -->
+  <div id="page-5" class="page left">
+    <h2>1890-1893: Matrimonios y familia</h2>
+    <div class="img-container"><img src="https://www.visitanicaragua.com/wp-content/uploads/2023/02/Pintura.jpg" alt="Retrato Rubén Darío"></div>
+    <div class="content">
+      <p>Casa con Rafaela Contreras (1890), nace hijo Rubén (1891). Muere Rafaela (1893). Casa con Rosario Murillo. Viajes y periodismo en Centroamérica.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 6 -->
+  <div id="page-6" class="page right">
+    <h2>1893-1898: Buenos Aires y Prosas Profanas</h2>
+    <div class="img-container"><img src="https://m.media-amazon.com/images/I/61cEdUk3OYL.jpg" alt="Portada Prosas Profanas"></div>
+    <div class="content">
+      <p>Trabaja en *La Nación*. Publica *Los raros* y *Prosas profanas* (1896): cisnes, princesas, sensualidad. Consolida el Modernismo continental.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 7 -->
+  <div id="page-7" class="page left">
+    <h2>1898-1901: España y el Desastre del 98</h2>
+    <div class="img-container"><img src="https://thediplomatinspain.com/wp-content/uploads/2024/05/ruben_dario.jpg" alt="Rubén Darío diplomático"></div>
+    <div class="content">
+      <p>Corresponsal en España. Cubre el Desastre del 98. Conoce a Juan Ramón Jiménez, Valle-Inclán. Publica *España contemporánea* (1901).</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 8 -->
+  <div id="page-8" class="page right">
+    <h2>1905: Cantos de vida y esperanza</h2>
+    <div class="img-container"><img src="https://is1-ssl.mzstatic.com/image/thumb/Publication/75/54/df/mzi.jmxlfift.jpg/1200x900wz.jpg" alt="Portada Cantos de vida y esperanza"></div>
+    <div class="content">
+      <p>Obra maestra: temas existenciales, espirituales, crítica social. Madurez del Modernismo. Editada por Juan Ramón Jiménez.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 9 -->
+  <div id="page-9" class="page left">
+    <h2>1907-1910: El canto errante y Poema del otoño</h2>
+    <div class="img-container"><img src="https://m.media-amazon.com/images/I/61mkX-22C3L.jpg" alt="Portada obra Darío"></div>
+    <div class="content">
+      <p>Publica *El canto errante* (1907) y *Poema del otoño* (1910). Viajes por Europa y América. Influencia máxima en poesía hispana.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 10 -->
+  <div id="page-10" class="page right">
+    <h2>1910-1914: Últimas obras y problemas personales</h2>
+    <div class="img-container"><img src="https://images.ctfassets.net/3s5io6mnxfqz/6yNdreFNLWG2bXuvWiuMx7/dfdc8dda9c55420c452bc5509dd5f504/ruben-dario-father-of-modernismo.jpeg" alt="Rubén Darío maduro"></div>
+    <div class="content">
+      <p>Publica *Canto a la Argentina* (1914). Lucha contra alcoholismo y deudas. Primera Guerra Mundial acelera regreso a América.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 11 -->
+  <div id="page-11" class="page left">
+    <h2>1913-1915: Autobiografía y regreso a Nicaragua</h2>
+    <div class="img-container"><img src="https://jpmas.com.ni/wp-content/uploads/2024/01/poeta-universal.jpg" alt="Rubén Darío retrato"></div>
+    <div class="content">
+      <p>Publica *La vida de Rubén Darío escrita por él mismo* y *Historia de mis libros*. Regresa enfermo a Nicaragua en 1915.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 12 -->
+  <div id="page-12" class="page right">
+    <h2>1916: Muerte en León</h2>
+    <div class="img-container"><img src="https://c8.alamy.com/comp/K75W55/nicaragua-leon-province-leon-ruben-dario-poet-grave-in-the-cathedral-K75W55.jpg" alt="Tumba de Rubén Darío con león"></div>
+    <div class="content">
+      <p>Fallece el 6 de febrero a los 49 años por cirrosis agravada por alcoholismo. Funeral multitudinario. Sepultado en Catedral de León bajo león simbólico.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 13 -->
+  <div id="page-13" class="page left">
+    <h2>Legado: Padre del Modernismo</h2>
+    <div class="img-container"><img src="https://lp-cms-production.imgix.net/2019-06/41505e08ffbf636880d2b0589f45e6f0-monumento-a-ruben-dario.jpg" alt="Monumento a Rubén Darío en Managua"></div>
+    <div class="content">
+      <p>Renueva poesía en español: musicalidad, exotismo, imágenes sensoriales, libertad métrica. Influye en Lorca, Valle-Inclán, Juan Ramón Jiménez y todo siglo XX hispano.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 14 -->
+  <div id="page-14" class="page right">
+    <h2>Símbolo eterno de Nicaragua</h2>
+    <div class="img-container"><img src="https://c8.alamy.com/comp/K75W55/nicaragua-leon-province-leon-ruben-dario-poet-grave-in-the-cathedral-K75W55.jpg" alt="Tumba Rubén Darío"></div>
+    <div class="content">
+      <p>Símbolo cultural de Nicaragua y América Latina. Calles, escuelas, premios llevan su nombre. Su cisne y azul siguen inspirando poetas del mundo.</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="nextPage()">Fin</button>
+    </div>
+  </div>
+
+  <!-- Página 15: Fin -->
+  <div id="page-15" class="page left">
+    <div class="cover" style="height: auto; padding: 100px 50px;">
+      <h1>Fin del Libro</h1>
+      <p>El Príncipe vive en cada verso...<br>Gracias por recorrer su legado ✍️🇳🇮🦢</p>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Volver</button>
+      <button onclick="nextPage()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- Página 16: Preguntas -->
+  <div id="page-16" class="page right">
+    <h2>Pregunta</h2>
+    <div class="content">
+      <form id="quiz-form">
+        <ol>
+          <li>
+            <p>1. ¿En qué año nació Rubén Darío?</p>
+            <label><input type="radio" name="q1" value="a"> 1867</label><br>
+            <label><input type="radio" name="q1" value="b"> 1868</label><br>
+            <label><input type="radio" name="q1" value="c"> 1870</label><br>
+            <label><input type="radio" name="q1" value="d"> 1865</label>
+          </li>
+          <li>
+            <p>2. ¿Cuál es la obra publicada en 1888?</p>
+            <label><input type="radio" name="q2" value="a"> Azul...</label><br>
+            <label><input type="radio" name="q2" value="b"> Prosas profanas</label><br>
+            <label><input type="radio" name="q2" value="c"> Cantos de vida y esperanza</label><br>
+            <label><input type="radio" name="q2" value="d"> Poema del otoño</label>
+          </li>
+          <li>
+            <p>3. ¿Cuál obra se publicó en 1896?</p>
+            <label><input type="radio" name="q3" value="a"> Azul...</label><br>
+            <label><input type="radio" name="q3" value="b"> Prosas profanas</label><br>
+            <label><input type="radio" name="q3" value="c"> Cantos de vida</label><br>
+            <label><input type="radio" name="q3" value="d"> El canto errante</label>
+          </li>
+          <li>
+            <p>4. ¿En qué país se presentó "Azul..." originalmente?</p>
+            <label><input type="radio" name="q4" value="a"> Nicaragua</label><br>
+            <label><input type="radio" name="q4" value="b"> Argentina</label><br>
+            <label><input type="radio" name="q4" value="c"> Chile</label><br>
+            <label><input type="radio" name="q4" value="d"> España</label>
+          </li>
+          <li>
+            <p>5. ¿En qué año falleció Rubén Darío?</p>
+            <label><input type="radio" name="q5" value="a"> 1915</label><br>
+            <label><input type="radio" name="q5" value="b"> 1916</label><br>
+            <label><input type="radio" name="q5" value="c"> 1914</label><br>
+            <label><input type="radio" name="q5" value="d"> 1920</label>
+          </li>
+          <li>
+            <p>6. ¿Qué título honorífico aparece en la portada de este libro?</p>
+            <label><input type="radio" name="q6" value="a"> Príncipe de las Letras Castellanas</label><br>
+            <label><input type="radio" name="q6" value="b"> Rey de los Poetas</label><br>
+            <label><input type="radio" name="q6" value="c"> Maestro del Modernismo</label><br>
+            <label><input type="radio" name="q6" value="d"> El Cisne</label>
+          </li>
+          <li>
+            <p>7. ¿Qué obra fue editada por Juan Ramón Jiménez según este libro?</p>
+            <label><input type="radio" name="q7" value="a"> Azul...</label><br>
+            <label><input type="radio" name="q7" value="b"> Prosas profanas</label><br>
+            <label><input type="radio" name="q7" value="c"> Cantos de vida y esperanza</label><br>
+            <label><input type="radio" name="q7" value="d"> Poema del otoño</label>
+          </li>
+          <li>
+            <p>8. ¿Qué problema de salud agravó su condición?</p>
+            <label><input type="radio" name="q8" value="a"> Gripe</label><br>
+            <label><input type="radio" name="q8" value="b"> Alcoholismo</label><br>
+            <label><input type="radio" name="q8" value="c"> Tuberculosis</label><br>
+            <label><input type="radio" name="q8" value="d"> Cáncer</label>
+          </li>
+        </ol>
+      </form>
+      <div style="margin-top:20px; text-align:center;">
+        <button onclick="checkQuiz()">Comprobar respuestas</button>
+        <button onclick="resetQuiz()">Reiniciar</button>
+        <div id="quiz-result" style="margin-top:12px; font-weight:bold;"></div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button onclick="prevPage()">← Anterior</button>
+      <button onclick="showPage(0)">Portada</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentPage = 0;
+  const pages = document.querySelectorAll('.page');
+
+  function showPage(index) {
+    pages.forEach(p => p.classList.remove('active'));
+    pages[index].classList.add('active');
+    currentPage = index;
+  }
+
+  function nextPage() {
+    if (currentPage < pages.length - 1) showPage(currentPage + 1);
+  }
+
+  function prevPage() {
+    if (currentPage > 0) showPage(currentPage - 1);
+  }
+
+  // Quiz: respuestas correctas
+  const _quizAnswers = {
+    q1: 'a', q2: 'a', q3: 'b', q4: 'c', q5: 'b',
+    q6: 'a', q7: 'c', q8: 'b'
+  };
+
+  function checkQuiz() {
+    const form = document.getElementById('quiz-form');
+    let score = 0;
+    const total = 8;
+    // limpiar notas anteriores
+    const prevNotes = form.querySelectorAll('.answer-note');
+    prevNotes.forEach(n => n.remove());
+
+    for (let i = 1; i <= total; i++) {
+      const name = 'q' + i;
+      const radios = form.querySelectorAll('input[name="' + name + '"]');
+      radios.forEach(r => {
+        const lbl = r.parentElement;
+        lbl.style.color = '';
+        lbl.style.fontWeight = '';
+        lbl.style.background = '';
+      });
+
+      const sel = form.querySelector('input[name="' + name + '"]:checked');
+      const correctVal = _quizAnswers[name];
+      const correctInput = form.querySelector('input[name="' + name + '"][value="' + correctVal + '"]');
+
+      if (sel) {
+        if (sel.value === correctVal) {
+          score++;
+          sel.parentElement.style.background = 'rgba(144,238,144,0.35)';
+          sel.parentElement.style.color = 'green';
+        } else {
+          sel.parentElement.style.background = 'rgba(255,182,193,0.35)';
+          sel.parentElement.style.color = 'darkred';
+          if (correctInput) {
+            correctInput.parentElement.style.background = 'rgba(144,238,144,0.35)';
+            correctInput.parentElement.style.color = 'green';
+          }
+        }
+      } else {
+        // no respondió: marcar la correcta
+        if (correctInput) {
+          correctInput.parentElement.style.background = 'rgba(144,238,144,0.35)';
+          correctInput.parentElement.style.color = 'green';
+        }
+      }
+    }
+
+    const resultDiv = document.getElementById('quiz-result');
+    resultDiv.innerText = `Resultado: ${score} / ${total}`;
+  }
+
+  function resetQuiz() {
+    const form = document.getElementById('quiz-form');
+    const inputs = form.querySelectorAll('input[type=radio]');
+    inputs.forEach(i => i.checked = false);
+    const labels = form.querySelectorAll('label');
+    labels.forEach(lbl => {
+      lbl.style.color = '';
+      lbl.style.background = '';
+      lbl.style.fontWeight = '';
+    });
+    const prevNotes = form.querySelectorAll('.answer-note');
+    prevNotes.forEach(n => n.remove());
+    document.getElementById('quiz-result').innerText = '';
+  }
+
+  function openFromHash() {
+    const h = location.hash.replace('#','');
+    if (h && document.getElementById(h)) {
+      const el = document.getElementById(h);
+      const idx = Array.from(pages).indexOf(el);
+      if (idx >= 0) showPage(idx);
+      else showPage(0);
+    } else {
+      showPage(0);
+    }
+  }
+
+  window.addEventListener('hashchange', openFromHash);
+  openFromHash();
+</script>
+
+</body>
+</html>
